@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dante's Clothing Order Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #2c3e50, #2980b9); /* Dark blue gradient background */
+            color: #ffffff; /* White text color */
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #ffffff; /* White text color for headings */
+        }
+        form {
+            background-color: #34495e; /* Darker blue form background color */
+            padding: 20px;                  /*I chose dark blue since I have been playing Persona 3 Reload and am in love with the blue theme of the game*/
+            border-radius: 8px;             /*Next time however, if i get the time to, i want to do better on the visuals or making the page prettier with another color theme to see how much i can change!*/
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2c3e50; /* Dark blue background color */
+            color: #ffffff; /* White text color */
+        }
+        input[type="submit"] {
+            background-color: #2980b9; /* Blue submit button color */
+            color: #ffffff; /* White text color */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #1f618d; /* Darker blue on hover */
+        }
+        .card {
+            background-color: #34495e; /* Darker blue card background color */
+            border: none;
+            border-radius: 8px;
+        }
+        .card-title {
+            color: #ffffff; /* White card title color */
+        }
+        .order-sheet {
+            background-color: #2c3e50; /* Dark blue background for order sheet */
+            color: #ffffff; /* White text color */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .order-sheet h3 {
+            margin-top: 0;
+        }
+        .remove-order {
+            color: #2980b9;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Heading -->
+    <h2>Merchandise Order Form</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form id="customerForm" action="#" method="post">
+                    
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" aria-label="First Name" required>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" aria-label="Last Name" required>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" aria-label="Email Address" required>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="shippingAddress">Shipping Address:</label>
+                        <textarea id="shippingAddress" name="shippingAddress" placeholder="Enter your shipping address" aria-label="Shipping Address" required></textarea>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="billingAddress">Billing Address:</label>
+                        <textarea id="billingAddress" name="billingAddress" placeholder="Enter your billing address" aria-label="Billing Address" required></textarea>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number:</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number: 6157777777" aria-label="Phone Number" pattern="[0-9]{10}" required>
+                    </div>
+
+                    
+                    <input type="submit" value="Order">
+                </form>
+            </div>
+            <!-- Clothing Preferences Card -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Clothing Preferences</h5>
+                        <!-- Clothing Preferences Form -->
+                        <form id="clothingForm">
+                            <!-- Clothing Top Field -->
+                            <div class="form-group">
+                                <label for="clothingTop">Clothing Top:</label>
+                                <select id="clothingTop" name="clothingTop" aria-label="Clothing Top" class="custom-select" required>
+                                    <option>Select Clothing Top</option>
+                                </select>
+                            </div>
+                            <!-- Clothing Bottom Field -->
+                            <div class="form-group">
+                                <label for="clothingBottom">Clothing Bottom:</label>
+                                <select id="clothingBottom" name="clothingBottom" aria-label="Clothing Bottom" class="custom-select" required>
+                                    <option>Select Clothing Bottom</option>
+                                </select>
+                            </div>
+                            <!-- Shoes Field -->
+                            <div class="form-group">
+                                <label for="shoes">Shoes:</label>
+                                <select id="shoes" name="shoes" aria-label="Shoes" class="custom-select" required>
+                                    <option value="" disabled selected>Select Shoes</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+    // Function to populate clothing top select box
+    $.getJSON("https://www.swollenhippo.com/getTopsByAPIKey.php?APIKey=Mickey2024!", function(data) {   //Getting these to properly populate was a struggle but it was fun to finally crack it
+        // Loop through the data and create options for select box
+        $.each(data, function(index, item) {
+            $('#clothingTop').append($('<option>', {
+                value: item.StyleID,
+                text: item.Description
+            }));
+        });
+    });
+
+    // Function to populate clothing bottom select box
+    $.getJSON("https://www.swollenhippo.com/getBottomsByAPIKey.php?APIKey=Mickey2024!", function(data) {
+        // Loop through the data and create options for select box
+        $.each(data, function(index, item) {
+            $('#clothingBottom').append($('<option>', {
+                value: item.StyleID,
+                text: item.Description
+            }));
+        });
+    });
+
+    // Function to populate shoes select box
+    $.getJSON("https://www.swollenhippo.com/getShoesByAPIKey.php?APIKey=Mickey2024!", function(data) {
+        // Loop through the data and create options for select box
+        $.each(data, function(index, item) {
+            $('#shoes').append($('<option>', {
+                value: item.StyleID,
+                text: item.Description
+            }));
+        });
+    });
+
+    // Function to handle form submission
+    $('#customerForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        // Get form data
+        var formData = {
+            firstName: $('#firstName').val(),
+            lastName: $('#lastName').val(),
+            email: $('#email').val(),
+            shippingAddress: $('#shippingAddress').val(),
+            billingAddress: $('#billingAddress').val(),
+            phoneNumber: $('#phoneNumber').val(),
+            clothingTop: $('#clothingTop option:selected').text(),
+            clothingBottom: $('#clothingBottom option:selected').text(),
+            shoes: $('#shoes option:selected').text()
+        };
+        // Log form data to console
+        console.log('Customer Information:', formData);
+        // Create order sheet
+        createOrderSheet(formData);
+        // Reset form fields
+        $('#customerForm')[0].reset();
+    });
+
+    // Function to create order sheet
+    function createOrderSheet(formData) {
+        var orderSheet = '<div class="order-sheet">';
+        orderSheet += '<h3>Order Sheet</h3>';
+        orderSheet += '<p><strong>Name:</strong> ' + formData.firstName + ' ' + formData.lastName + '</p>';
+        orderSheet += '<p><strong>Email:</strong> ' + formData.email + '</p>';
+        orderSheet += '<p><strong>Shipping Address:</strong> ' + formData.shippingAddress + '</p>';
+        orderSheet += '<p><strong>Billing Address:</strong> ' + formData.billingAddress + '</p>';
+        orderSheet += '<p><strong>Phone Number:</strong> ' + formData.phoneNumber + '</p>';
+        orderSheet += '<p><strong>Clothing Top:</strong> ' + formData.clothingTop + '</p>';
+        orderSheet += '<p><strong>Clothing Bottom:</strong> ' + formData.clothingBottom + '</p>';
+        orderSheet += '<p><strong>Shoes:</strong> ' + formData.shoes + '</p>';
+        orderSheet += '<button class="remove-order" onclick="removeOrderSheet(this)">Remove Order</button>';
+        orderSheet += '</div>';
+        // Append order sheet to the document
+        $('.container').append(orderSheet);
+    }
+
+    // Function to remove order sheet
+    window.removeOrderSheet = function(element) {
+        $(element).closest('.order-sheet').remove();
+    };
+});
+
+    </script>
+</body>
+</html>
